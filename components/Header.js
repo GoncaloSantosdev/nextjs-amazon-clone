@@ -1,9 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
 import Image from "next/image";
+// Auth
+import { useSession, signIn, signOut } from "next-auth/react"
 // Icons
 import { MagnifyingGlassIcon, ShoppingCartIcon, Bars3Icon } from '@heroicons/react/24/solid'
 
 const Header = () => {
+    const { data: session } = useSession();
+
   return (
     <header>
         {/* Top Nav */}
@@ -25,8 +29,10 @@ const Header = () => {
             </div>
 
             <div className='text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap'>
-                <div className='link'>
-                    <p>Hello User</p>
+                <div className='link' onClick={!session ? signIn : signOut}>
+                    <p>
+                        {session ? `Hello, ${session.user.name}` : 'Sign In'}
+                    </p>
                     <p className='font-extrabold md:text-sm'>Account & Lists</p>
                 </div>
 
