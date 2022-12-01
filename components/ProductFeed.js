@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 // Components
 import Product from "./Product";
 

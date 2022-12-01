@@ -1,14 +1,35 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
+// Redux
+import { useDispatch } from 'react-redux';
+import { addToBasket } from '../redux/slices/basketSlice';
+// Hooks
 import Image from "next/image";
 // Icons
 import { StarIcon } from '@heroicons/react/24/solid';
 
-
 const Product = ({ id, title, price, description, category, image, rating }) => {
+  const dispatch = useDispatch();
+
   const [hasPrime, setHasPrime] = useState();
     
   useEffect(() => setHasPrime(Math.random() < 0.5), []);
+
+  const addItemToBasket = () => {
+    const product = {
+      id, 
+      title, 
+      price, 
+      description, 
+      category, 
+      image, 
+      rating,
+      hasPrime
+    };
+
+    dispatch(addToBasket(product));
+  }
+  
 
   const ratingStars = () => {
     if(rating.rate >= '1' && rating.rate < '2'){
@@ -73,7 +94,7 @@ const Product = ({ id, title, price, description, category, image, rating }) => 
             </div>
         )}
         
-            <button className='mt-auto button'>Add to Basket</button>
+            <button className='mt-auto button' onClick={addItemToBasket}>Add to Basket</button>
 
     </div>
   )

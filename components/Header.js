@@ -1,12 +1,20 @@
 /* eslint-disable react/no-unescaped-entities */
+// Redux
+import { useSelector } from "react-redux";
+import { selectItems } from "../redux/slices/basketSlice";
+// Nextjs Hooks
 import Image from "next/image";
 // Auth
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn, signOut } from "next-auth/react";
+// Router
+import { useRouter } from "next/router";
 // Icons
 import { MagnifyingGlassIcon, ShoppingCartIcon, Bars3Icon } from '@heroicons/react/24/solid'
 
 const Header = () => {
-    const { data: session } = useSession();
+  const { data: session } = useSession();
+  const router = useRouter();
+  const items = useSelector(selectItems);
 
   return (
     <header>
@@ -14,6 +22,7 @@ const Header = () => {
         <div className='flex items-center bg-amazon_blue p-3 flex-grow py-2'>
             <div className="mt-2 pr-3 flex items-center flex-grow sm:flex-grow-0">
                 <Image 
+                    onClick={() => router.push('/')}
                     src='https://links.papareact.com/f90' 
                     alt="Amazon Logo" 
                     width={130} 
@@ -42,8 +51,8 @@ const Header = () => {
                     <p className='font-extrabold md:text-sm'>& Orders</p>
                 </div>
 
-                <div className='relative link flex items-center '>
-                    <span className='absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full text-black font-bold'>0</span>
+                <div className='relative link flex items-center' onClick={() => router.push('/checkout')}>
+                    <span className='absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full text-black font-bold'>{items.length}</span>
 
                     <ShoppingCartIcon className='h-10'/>
                     <p className='font-extrabold md:text-sm hidden md:inline mt-2'>Basket</p>
